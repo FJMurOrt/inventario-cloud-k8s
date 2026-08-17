@@ -1,4 +1,4 @@
-# Despliegue de una API en Kubernetes
+# Despliegue de mi API del inventario cloud en Kubernetes
 
 Con este proyecto, despliego mi API que desarrollé de inventario cloud, en un clúster de Kubernetes, con réplicas, autohealing, configuración externalizada y autoescalado horizontal.
 
