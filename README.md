@@ -116,6 +116,59 @@ kubectl get pods
 
 ---
 
+## GitOps con ArgoCD
+
+Por otro lado, además del despliegue manual con `kubectl`, he configurado ArgoCD para gestionar el estado del clúster mediante GitOps, de esta manera ArgoCD se encarga de que el clúster refleje el contenido del repositorio.
+
+### Instalación
+
+```bash
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
+
+Para acceder a la interfaz:
+
+```bash
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+```
+
+### Configuración de la aplicación
+
+| Parámetro | Valor |
+|-----------|-------|
+| Repositorio | Este mismo repositorio |
+| Path | `yamls` |
+| Namespace destino | `default` |
+| Sync Policy | Automatic, con Prune y Self Heal |
+
+![6](./capturas/6.png)
+
+![7](./capturas/7.png)
+
+### Self Heal en marcha
+
+Con Self Heal activado, cualquier cambio manual que se haga en el clúster se revierte automáticamente para mantener la relación real con el repositorio:
+
+```bash
+kubectl scale deployment inventario-api --replicas=5
+kubectl get pods
+```
+
+Aquí lo que sucede es que en pocos segundos ArgoCD detecta la desviación y devuelve el clúster al estado real del repositorio.
+
+![8](./capturas/8.png)
+
+---
+
+## HPA y GitOps
+
+Al desplegar con ArgoCD hubo un pequeño problema entre el HorizontalPodAutoscaler y la sincronización automática de ArgoCD.
+
+El yaml del Deployment definía `replicas: 3`, pero el HPA reducía las réplicas a 2 al detectar el bajo uso de la CPU. Entonces ArgoCD interpretaba esa diferencia como una diferencia respecto al repositorio y marcaba la aplicación como `OutOfSync`.
+
+La solución ha sido eliminar el campo `replicas` del Deployment. Con el HPA controlando el mínimo de replicas, no es necesario reflejar el número de réplicas el yaml del Deployment. Ya lo lleva a cabo el HPA dentro de los límites de `minReplicas` y `maxReplicas`.
+
 ## Para eliminar los recursos
 
 ```bash
@@ -141,6 +194,7 @@ El ConfigMap se inyecta como variables de entorno en el contenedor, pero la apli
 ## Tecnologías que se han usado
 
 - Kubernetes
+- ArgoCD
 - Minikube
 - kubectl
 - Docker
