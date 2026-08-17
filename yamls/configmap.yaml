@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configuracion-inventario
+data:
+  ENTORNO: "produccion"
+  NIVEL_LOG: "info"
+  MAX_SERVIDORES: "100"
