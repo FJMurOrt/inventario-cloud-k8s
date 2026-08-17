@@ -56,7 +56,7 @@ Y para comprobarlo:
 kubectl get all
 ```
 
-![1](capturas/1.png)
+![1](./capturas/1.png)
 
 En esta salida se ve el Deployment, los pods, el Service con el mapeo `80:30800` y el HPA mostrando el uso actual de CPU frente al objetivo.
 
@@ -70,7 +70,7 @@ minikube service servicio-inventario
 
 La documentación interactiva de la API está disponible en `/docs`.
 
-![2](capturas/2.png)
+![2](./capturas/2.png)
 
 ![3](./capturas/3.png)
 
