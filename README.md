@@ -128,7 +128,7 @@ kubectl delete -f ./
 ```
 ---
 
-## Limitaciones conocidas
+## A tener en cuenta de cara al futuro
 
 **Estado no compartido entre réplicas**
 La API usa SQLite dentro del contenedor, por lo que cada pod tiene su propia base de datos, es decir, los datos no se comparten. Lo idea para mejorar esto sería una base de datos externa o con un volumen compartido.
