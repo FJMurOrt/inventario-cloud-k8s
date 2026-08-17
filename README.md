@@ -140,4 +140,8 @@ El ConfigMap se inyecta como variables de entorno en el contenedor, pero la apli
 
 ## Tecnologías que se han usado
 
-Kubernetes · Minikube · kubectl · Docker · FastAPI
+- Kubernetes
+- Minikube
+- kubectl
+- Docker
+- FastAPI
