@@ -112,7 +112,7 @@ kubectl delete pod <nombre-del-pod>
 kubectl get pods
 ```
 
-![6](./capturas/6.png)
+![5](./capturas/5.png)
 
 ---
 
