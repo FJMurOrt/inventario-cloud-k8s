@@ -177,7 +177,7 @@ kubectl delete -f yamls/
 o si te encuentras dentro del directorio
 
 ```bash
-kubectl delete -f ./
+kubectl delete -f .
 ```
 ---
 
