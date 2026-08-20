@@ -255,3 +255,7 @@ El ConfigMap se inyecta como variables de entorno en el contenedor, pero la apli
 - kubectl
 - Docker
 - FastAPI
+- Prometheus
+- Grafana
+- kube-prometheus-stack (Helm chart)
+- prometheus-fastapi-instrumentator (para la instrumentación de la API)
