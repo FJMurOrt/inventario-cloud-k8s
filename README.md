@@ -214,11 +214,12 @@ La solución fue añadir añadir entonces al metadata del Service `metadata.labe
 ### Cómo probarlo en local
 
 ```bash
-# Verificar que Prometheus scrapea correctamente
 kubectl port-forward svc/monitoring-kube-prometheus-prometheus -n monitoring 9090:9090
-# → http://localhost:9090/targets
+```
+http://localhost:9090/targets
 
-# Acceder a Grafana
+Y para Grafana
+```
 minikube service monitoring-grafana -n monitoring
 ```
 
