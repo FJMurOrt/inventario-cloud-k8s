@@ -202,6 +202,8 @@ Dashboard personalizado en Grafana con 3 paneles:
 
 ![19](./capturas/19.png)
 
+![20](./capturas/20.png)
+
 ### Problemas encontrados y solucionados
 
 **1. CRDs demasiado grandes para `kubectl apply`**
