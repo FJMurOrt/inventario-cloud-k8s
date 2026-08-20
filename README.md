@@ -108,7 +108,7 @@ Para que el autoescalado funcione, el Deployment debe definir `resources.request
 Si un pod deja de funcionar, el Deployment crea otro automáticamente para mantener el número de réplicas que se hayan definido en el yaml:
 
 ```bash
-kubectl delete pod <nombre-del-pod>
+kubectl delete pod pod-nombre
 kubectl get pods
 ```
 
