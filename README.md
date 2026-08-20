@@ -169,6 +169,59 @@ El yaml del Deployment definía `replicas: 3`, pero el HPA reducía las réplica
 
 La solución ha sido eliminar el campo `replicas` del Deployment. Con el HPA controlando el mínimo de replicas, no es necesario reflejar el número de réplicas el yaml del Deployment. Ya lo lleva a cabo el HPA dentro de los límites de `minReplicas` y `maxReplicas`.
 
+---
+
+## Monitorización con Prometheus y Grafana
+
+Para la parte final dejo laobservabilidad completa al clúster mediante `kube-prometheus-stack`, desplegado y gestionado 100% vía GitOps con ArgoCD.
+
+![13](./capturas/13.png)
+
+![14](./capturas/14.png)
+
+### Arquitectura
+
+- Prometheus + Grafana + Alertmanager desplegados como una aplicación de ArgoCD, y que apuntan directamente al chart oficial de Helm (`prometheus-community/kube-prometheus-stack`)
+- La API de inventario (`inventario-cloud-fastapi`) se instrumentó con [`prometheus-fastapi-instrumentator`](https://github.com/trallnag/prometheus-fastapi-instrumentator), exponiendo un endpoint `/metrics` con métricas de latencia, número de requests y códigos de estado
+- El `ServiceMonitor` conecta el `Service` de la API con Prometheus y hace scraping automático cada 15s
+
+### Dashboard
+
+Dashboard personalizado en Grafana con 3 paneles:
+- Total de peticiones por endpoint
+- Tasa de requests por código de estado (2xx, 4xx...)
+- Latencia p95 por endpoint
+
+![15](./capturas/15.png)
+
+![16](./capturas/16.png)
+
+![17](./capturas/17.png)
+
+![18](./capturas/18.png)
+
+![19](./capturas/19.png)
+
+### Problemas encontrados y solucionados
+
+**1. CRDs demasiado grandes para `kubectl apply`**
+Los CRDs del chart (`Prometheus`, `Alertmanager`, etc.) superan el límite de 262.144 bytes que permite la sync por defecto de ArgoCD. La solución que se le ha dado es activar `ServerSideApply=true` en las `syncOptions` del aplicacion.yaml.
+
+**2. `ServiceMonitor` sin targets (Prometheus no descubría la API)**
+Un problema es que el selector de un `ServiceMonitor` no filtra por las labels de los Pods, sino por las **labels del propio `Service`. El `Service` tenía correctamente el `spec.selector` apuntando a los pods, pero no tenía labels en su `metadata`, así que Prometheus no lo encontraba.
+La solución fue añadir añadir entonces al metadata del Service `metadata.labels: app: inventario-api` , además del `spec.selector` que ya tenía.
+
+### Cómo probarlo en local
+
+```bash
+# Verificar que Prometheus scrapea correctamente
+kubectl port-forward svc/monitoring-kube-prometheus-prometheus -n monitoring 9090:9090
+# → http://localhost:9090/targets
+
+# Acceder a Grafana
+minikube service monitoring-grafana -n monitoring
+```
+
 ## Para eliminar los recursos
 
 ```bash
