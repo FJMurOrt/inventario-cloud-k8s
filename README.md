@@ -1,8 +1,9 @@
 # Despliegue de mi API del inventario cloud en Kubernetes
 
-Con este proyecto, despliego mi API que desarrollé de inventario cloud, en un clúster de Kubernetes, con réplicas, autohealing, configuración externalizada y autoescalado horizontal.
-
-La imagen que despliego es la que yo mismo desarrollé y desplegué con FastAPI/Docker: [fjmurort/inventario-cloud-api](https://hub.docker.com/r/fjmurort/inventario-cloud-api), construida y publicada automáticamente mediante un pipeline de GitHub Actions. Lo puedes ver en [este repositorio](https://github.com/FJMurOrt/inventario-cloud-fastapi).
+> 🔗 **Este proyecto forma parte de un ecosistema de repositorios conectados (fueron separados en diferentes repositorios para una mejor organización).** Aquí puedes ver el resto de ellos:
+> - [`inventario-cloud-fastapi`](https://github.com/FJMurOrt/inventario-cloud-fastapi) - la API REST base (FastAPI, SQLAlchemy, Pydantic, Pytest, Docker)
+> - [`agente-inventario-ia`](https://github.com/FJMurOrt/agente-inventario-ia) - la implementación del agente de IA sobre esta misma API (Gemini API, Function Calling)
+> - [`automatizacion-api-inventario-n8n`](https://github.com/FJMurOrt/automatizacion-api-inventario-n8n) - automatización de alertas y notificaciones sobre la API (n8n, Webhooks)
 
 ---
 
@@ -182,7 +183,7 @@ Para la parte final dejo laobservabilidad completa al clúster mediante `kube-pr
 ### Arquitectura
 
 - Prometheus + Grafana + Alertmanager desplegados como una aplicación de ArgoCD, y que apuntan directamente al chart oficial de Helm (`prometheus-community/kube-prometheus-stack`)
-- La API de inventario (`inventario-cloud-fastapi`) se instrumentó con [`prometheus-fastapi-instrumentator`](https://github.com/trallnag/prometheus-fastapi-instrumentator), exponiendo un endpoint `/metrics` con métricas de latencia, número de requests y códigos de estado
+- La API de inventario (`inventario-cloud-fastapi`) se monitorizó con [`prometheus-fastapi-instrumentator`](https://github.com/trallnag/prometheus-fastapi-instrumentator), exponiendo un endpoint `/metrics` con métricas de latencia, número de requests y códigos de estado
 - El `ServiceMonitor` conecta el `Service` de la API con Prometheus y hace scraping automático cada 15s
 
 ### Dashboard
