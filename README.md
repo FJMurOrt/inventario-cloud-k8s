@@ -1,6 +1,6 @@
 # Despliegue de mi API del inventario cloud en Kubernetes
 
-> 🔗 **Este proyecto forma parte de un ecosistema de repositorios conectados (fueron separados en diferentes repositorios para una mejor organización).** Aquí puedes ver el resto que componen el proyecto al completo:
+> 🔗 **Este proyecto forma parte de un ecosistema de repositorios conectados (fueron separados en diferentes repositorios para una mejor organización).** Aquí tienes los enlaces resto que componen el proyecto al completo:
 > - [`inventario-cloud-fastapi`](https://github.com/FJMurOrt/inventario-cloud-fastapi) - el desasrrollo de la API REST base (FastAPI, SQLAlchemy, Pydantic, Pytest, Docker)
 > - [`agente-inventario-ia`](https://github.com/FJMurOrt/agente-inventario-ia) - la implementación del agente de IA sobre esta misma API (Gemini API, Function Calling)
 > - [`automatizacion-api-inventario-n8n`](https://github.com/FJMurOrt/automatizacion-api-inventario-n8n) - automatización de alertas y notificaciones sobre la API (n8n, Webhooks)
